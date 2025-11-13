@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Анімація з керуванням</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    h1 {
+      color: #333;
+    }
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: #ff6f61;
+      border-radius: 20px;
+      position: relative;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Анімація JavaScript</h1>
+  <div id="box"></div>
+  <div>
+    <button id="startBtn">▶ Старт</button>
+    <button id="stopBtn">⏸ Стоп</button>
+    <button id="resetBtn">🔄 Скинути</button>
+  </div>
+
+  <script>
+    // Отримуємо посилання на HTML-елемент
+    const box = document.getElementById("box");
+
+    // Початкові параметри
+    let pos = 0;         // поточна позиція
+    let direction = 1;   // напрямок руху (1 — вправо, -1 — вліво)
+    let animationId;     // ідентифікатор анімації
+
+    // Функція анімації
+    function animate() {
+      pos += direction * 2; // рухаємось на 2px за кадр
+      box.style.left = pos + "px"; // змінюємо положення елемента
+      if (pos > 300 || pos < 0) direction *= -1; // змінюємо напрямок
+      animationId = requestAnimationFrame(animate); // викликаємо знову
+    }
+
+    // Обробники подій кнопок
+    document.getElementById("startBtn").onclick = () => {
+      cancelAnimationFrame(animationId); // уникаємо дублювання
+      animate(); // запускаємо
+    };
+
+    document.getElementById("stopBtn").onclick = () => {
+      cancelAnimationFrame(animationId); // зупиняємо
+    };
+
+    document.getElementById("resetBtn").onclick = () => {
+      cancelAnimationFrame(animationId);
+      pos = 0;
+      box.style.left = pos + "px";
+    };
+  </script>
+</body>
+</html>
